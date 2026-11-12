@@ -44,11 +44,16 @@ MDCC/
 │   ├── evaluate_iterative_cohort.py  gated policy and fixed-pass stress test on a cohort
 │   ├── plot_iterative_metrics.py     per-pass cohort figure
 │   └── bridge.py           subprocess interface to ME-MoD and ME-MoC
+├── motion_simulation/      simulated motion for the paired training and test data
+│   ├── simulate_motion.py  k-space line replacement with rigid shifts and rotations (light, moderate)
+│   ├── mat_io.py, LICENSE_LEARN.txt
 ├── configs/                training configs (memod.json, memoc.json)
 ├── weights/
 │   ├── memod/              best_weights.h5, config.json, decision_threshold.json
 │   └── memoc/              best-psnr.h5, config.json
-└── tests/test_models.py    checks that both models build and load the released weights
+└── tests/
+    ├── test_models.py             checks that both models build and load the released weights
+    └── test_motion_simulation.py  checks the motion simulation on a small synthetic volume
 ```
 
 ## Installation
@@ -129,7 +134,39 @@ data/
   real_clean/<subj>/ima_comb_<subj>.mat      acquired motion-free volumes (ME-MoD)
 ```
 
-The simulated volumes in the paper were generated with the k-space line-replacement motion simulator of LEARN (Xu et al., *Magn Reson Med* 2022), which is available at https://github.com/xuxiaojian/2022-MRM-LEARN and is not redistributed here. The light and moderate parameter ranges are listed in Table 1 of the paper.
+### Simulating motion
+
+The motion-corrupted volumes under `data/motion/` are simulated from the motion-free volumes under `data/truth/`:
+
+```bash
+python -m motion_simulation.simulate_motion --truth_root data/truth --motion_root data/motion
+```
+
+For every subject this writes four volumes, two realizations (`r1`, `r2`) of each severity, plus a `.motion.json` file listing the simulated events:
+
+| Severity | Motion label | Events | Lines replaced per event | Shift (pixels) | Rotation (degrees) | Centre gap |
+|---|---|---|---|---|---|---|
+| Light | `_nrand1-3_snr3d_light_r1`, `_r2` | 1–3 | 1–3 | ±3 | ±2, ±1, ±1 | 12 |
+| Moderate | `_nrand2-5_snr3d_mid_r1`, `_r2` | 2–5 | 2–5 | ±6 | ±4, ±2, ±2 | 14 |
+
+These are the ranges of Table 1 of the paper. The simulator works as follows:
+
+- **Events:** each event shifts and rotates the motion-free volume, with the same rigid transform for all echoes.
+- **Line replacement:** a band of consecutive k-space lines along the width (phase-encoding) axis is replaced by the lines of the moved volume.
+- **Centre gap:** the first line of a band is never drawn within the centre gap around the k-space centre.
+
+Useful options:
+
+- `--subjects S1 S2 ...`: simulate only these subjects (default: all, in sorted order).
+- `--profiles snr3d_light snr3d_mid`: severities to simulate.
+- `--repeat_each N`: realizations per severity (default 2).
+- `--slice_range START END`: keep the motion only in these slices and copy the others from the motion-free volume.
+
+The random generator is seeded once per severity and realization, and its stream continues across the subjects of a run. The motion drawn for a subject therefore depends on its position in the subject list.
+
+The simulation is adapted from the k-space corruption code of LEARN (Xu et al., *Magn Reson Med* 2022; https://github.com/xuxiaojian/2022-MRM-LEARN), which is distributed under the MIT License (`motion_simulation/LICENSE_LEARN.txt`). If you use the simulation, please cite the LEARN paper as well (see [Citation](#citation)).
+
+### Subject lists
 
 The study's participant identifiers are not distributed, so the subject lists in the configs are empty. Before training or paired evaluation, fill them with your own `<subj>` folder names:
 
@@ -137,6 +174,8 @@ The study's participant identifiers are not distributed, so the subject lists in
 - **`configs/memod.json`:** `data.train_subjects` and `data.valid_subjects` (simulated pairs), plus `data.real_motion_train_subjects`, `data.real_motion_valid_subjects`, `data.real_clean_train_subjects` and `data.real_clean_valid_subjects` (acquired volumes).
 
 Keep every participant in one list only. Running the released models on new volumes does not use these lists.
+
+### Training the models
 
 ```bash
 # ME-MoD: writes runs/memod/<run>/best_weights.h5, decision_threshold.json, config_used.json, ...
