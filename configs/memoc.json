@@ -1,0 +1,81 @@
+{
+  "setting": {
+    "dataset": "mri_3decho",
+    "root_path": "runs/memoc",
+    "save_folder": "ME-MoC",
+    "slice_rng": [
+      20,
+      82
+    ],
+    "pad_width_to_192": true
+  },
+  "train": {
+    "batch_size": 2,
+    "learning_rate": 0.0001,
+    "train_epoch": 120,
+    "variant": "attention_phys",
+    "lossType": "l2",
+    "lambda_mag": 0.2,
+    "lambda_phys": 0.02,
+    "attn_heads": 2,
+    "attn_key_dim": 16,
+    "psnr_max_val": 1.0,
+    "deployment_guard": {
+      "min_val_psnr": 0.0,
+      "min_val_clean_psnr": 0.0
+    },
+    "physics": {
+      "use_te_weighting": false,
+      "mask_source": "echo1_true",
+      "mask_threshold": 0.03
+    }
+  },
+  "data": {
+    "truth_root": "data/truth",
+    "motion_root": "data/motion",
+    "train_subjects": [],
+    "valid_subjects": [],
+    "test_subjects": [],
+    "motion_label": "_nrand2-5_snr3d_mid_r1",
+    "train_motion_labels": [
+      "_nrand1-3_snr3d_light_r1",
+      "_nrand1-3_snr3d_light_r2",
+      "_nrand2-5_snr3d_mid_r1",
+      "_nrand2-5_snr3d_mid_r2"
+    ],
+    "valid_motion_labels": [
+      "_nrand1-3_snr3d_light_r1",
+      "_nrand1-3_snr3d_light_r2",
+      "_nrand2-5_snr3d_mid_r1",
+      "_nrand2-5_snr3d_mid_r2"
+    ],
+    "test_motion_labels": [
+      "_nrand2-5_snr3d_mid_r2",
+      "_nrand1-3_snr3d_light_r1"
+    ],
+    "norm": "midcube",
+    "truth_mat_name": "ima_comb_{subj}.mat",
+    "motion_mat_name": "ima_comb_{subj}{label}.mat",
+    "truth_var_candidates": [
+      "ima_comb",
+      "ima_comb1"
+    ],
+    "motion_var_candidates": [
+      "ima_comb",
+      "ima_comb1"
+    ]
+  },
+  "method": {
+    "model": "unet3d",
+    "unet3d": {
+      "input_channel": 20,
+      "output_channel": 2,
+      "kernel_size": 3,
+      "filters_root": 32,
+      "conv_times": 3,
+      "up_down_times": 4,
+      "if_relu": false,
+      "if_residule": false
+    }
+  }
+}

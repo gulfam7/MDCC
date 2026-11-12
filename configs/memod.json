@@ -1,0 +1,117 @@
+{
+  "setting": {
+    "task": "motion_classification_subject_gate",
+    "dataset": "mri_3decho",
+    "root_path": "runs/memod",
+    "save_folder": "ME-MoD",
+    "slice_rng": [
+      29,
+      75
+    ],
+    "pad_width_to_192": true
+  },
+  "train": {
+    "subject_batch_size": 4,
+    "learning_rate": 0.0001,
+    "train_epoch": 150,
+    "early_stopping_patience": 50,
+    "monitor": "val_auc",
+    "monitor_mode": "max",
+    "max_slices": null
+  },
+  "classification": {
+    "input_representation": "complex20",
+    "echo_count": 10,
+    "class_balance": "weighted",
+    "decision_threshold": 0.15456616878509521,
+    "real_motion_slice_label_fallback": "unknown",
+    "slice_label_fallback": "dense",
+    "aggregation": {
+      "type": "topk_mean",
+      "topk": 14,
+      "window_size": 3,
+      "logit_floor": 0.0,
+      "min_positive": 3,
+      "fallback_logit": -6.0
+    },
+    "localization": {
+      "enable": true,
+      "threshold": 0.5,
+      "max_fraction": 0.12,
+      "max_count": 12,
+      "min_consecutive": 3
+    },
+    "training": {
+      "subject_loss_weight": 1.0,
+      "slice_loss_weight": 0.15,
+      "slice_unknown_value": -1.0
+    }
+  },
+  "model": {
+    "echo_gate_type": "complex_pair_se",
+    "echo_gate_eps": 1e-06,
+    "gate_hidden": 32,
+    "stem_filters": 16,
+    "stage_filters": [
+      16,
+      32,
+      64,
+      128
+    ],
+    "blocks_per_stage": 2,
+    "embedding_dim": 128,
+    "dropout": 0.2,
+    "use_layer_norm": true
+  },
+  "data": {
+    "truth_root": "data/truth",
+    "motion_root": "data/motion",
+    "motion_roots": [
+      "data/motion"
+    ],
+    "motion_source_names": [
+      "motion"
+    ],
+    "real_motion_root": "data/real_motion",
+    "real_motion_source_name": "real_motion",
+    "real_motion_train_subjects": [],
+    "real_motion_valid_subjects": [],
+    "real_motion_test_subjects": [],
+    "real_motion_mat_name": "ima_comb_{subj}.mat",
+    "real_motion_var_candidates": [
+      "ima_comb",
+      "ima_comb1"
+    ],
+    "real_clean_root": "data/real_clean",
+    "real_clean_source_name": "real_clean",
+    "real_clean_train_subjects": [],
+    "real_clean_valid_subjects": [],
+    "real_clean_test_subjects": [],
+    "real_clean_mat_name": "ima_comb_{subj}.mat",
+    "real_clean_var_candidates": [
+      "ima_comb",
+      "ima_comb1"
+    ],
+    "slice_label_key": "slice_label",
+    "slice_index_key": "target_slices",
+    "slice_label_unknown_value": -1,
+    "train_subjects": [],
+    "valid_subjects": [],
+    "test_subjects": [],
+    "motion_labels": [
+      "_nrand2-5_snr3d_mid_r2"
+    ],
+    "norm": "echo1mean",
+    "truth_mat_name": "ima_comb_{subj}.mat",
+    "motion_mat_name": "ima_comb_{subj}{label}.mat",
+    "truth_var_candidates": [
+      "ima_comb",
+      "ima_comb1"
+    ],
+    "motion_var_candidates": [
+      "ima_comb",
+      "ima_comb1"
+    ],
+    "slice_label_sidecar_suffix": ".slice_labels.json"
+  }
+}

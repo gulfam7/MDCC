@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "If you use this software or the trained models, please cite the article below."
+title: "MDCC: Motion Detection and Conditional Correction for multi-echo GRE MRI"
+type: software
+authors:
+  - family-names: Saju
+    given-names: Gulfam Ahmed
+    affiliation: "Mallinckrodt Institute of Radiology, Washington University in St. Louis"
+  - family-names: Lewis
+    given-names: Jeramy
+    affiliation: "Mallinckrodt Institute of Radiology, Washington University in St. Louis"
+  - family-names: Kothapalli
+    given-names: Satya V. V. N.
+    affiliation: "Mallinckrodt Institute of Radiology, Washington University in St. Louis"
+  - family-names: Eldeniz
+    given-names: Cihat
+    affiliation: "Mallinckrodt Institute of Radiology, Washington University in St. Louis"
+  - family-names: Yablonskiy
+    given-names: Dmitriy A.
+    affiliation: "Mallinckrodt Institute of Radiology, Washington University in St. Louis"
+keywords:
+  - multi-echo MRI
+  - motion detection
+  - motion correction
+  - deep learning
+  - complex-valued neural network
+preferred-citation:
+  type: article
+  title: "A Deep Learning Framework for Retrospective Motion Detection and Conditional Correction (MDCC): Application to Multi-Gradient-Recalled Echo Quantitative MRI"
+  authors:
+    - family-names: Saju
+      given-names: Gulfam Ahmed
+    - family-names: Lewis
+      given-names: Jeramy
+    - family-names: Kothapalli
+      given-names: Satya V. V. N.
+    - family-names: Eldeniz
+      given-names: Cihat
+    - family-names: Yablonskiy
+      given-names: Dmitriy A.
+  journal: "Journal of Imaging Informatics in Medicine"
+  year: 2026
+  status: in-press

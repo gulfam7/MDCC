@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Data, caches and outputs (not part of the repository)
+data/
+cache/
+runs/
+results/
+*.mat
+*.slice_labels.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

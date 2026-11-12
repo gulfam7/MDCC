@@ -1,0 +1,13 @@
+{
+  "threshold": 0.15456616878509521,
+  "balanced_accuracy": 0.7922077922077921,
+  "specificity": 0.7272727272727273,
+  "confusion": {
+    "tp": 6,
+    "tn": 8,
+    "fp": 3,
+    "fn": 1
+  },
+  "auc": 0.8636364340782166,
+  "n_subjects": 18
+}

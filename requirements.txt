@@ -1,0 +1,7 @@
+# Tested with Python 3.9 and the versions below.
+tensorflow==2.15.1
+numpy>=1.23,<2.0
+scipy>=1.10
+h5py>=3.8
+scikit-image>=0.21    # pipeline.evaluate_iterative_cohort (SSIM)
+matplotlib>=3.7       # pipeline figures
