@@ -4,7 +4,7 @@ This repository contains the code and trained models for:
 
 > G. A. Saju, J. Lewis, S. V. V. N. Kothapalli, C. Eldeniz, D. A. Yablonskiy.
 > **A Deep Learning Framework for Retrospective Motion Detection and Conditional Correction (MDCC): Application to Multi-Gradient-Recalled Echo Quantitative MRI.**
-> *Journal of Imaging Informatics in Medicine*, 2026 (in press).
+> *Journal of Imaging Informatics in Medicine*, 2026.
 <!-- Add volume, pages and DOI here and in CITATION.cff once they are assigned. -->
 
 MDCC is a retrospective, image-domain pipeline for reconstructed complex multi-echo gradient-recalled-echo (mGRE) volumes. It has two networks:
@@ -255,8 +255,7 @@ If you use this code or the trained models, please cite:
   title   = {A Deep Learning Framework for Retrospective Motion Detection and Conditional Correction ({MDCC}): Application to Multi-Gradient-Recalled Echo Quantitative {MRI}},
   author  = {Saju, Gulfam Ahmed and Lewis, Jeramy and Kothapalli, Satya V. V. N. and Eldeniz, Cihat and Yablonskiy, Dmitriy A.},
   journal = {Journal of Imaging Informatics in Medicine},
-  year    = {2026},
-  note    = {In press}
+  year    = {2026}
 }
 ```
 
